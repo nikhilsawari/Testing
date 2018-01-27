@@ -1,0 +1,98 @@
+package com.nikhil.pagedriver;
+
+import java.io.File;
+
+import org.testng.ITestContext;
+import org.testng.ITestResult;
+import org.testng.internal.IResultListener;
+import com.relevantcodes.extentreports.ExtentReports;
+import com.relevantcodes.extentreports.ExtentTest;
+import com.relevantcodes.extentreports.LogStatus;
+
+public class ImplementListner implements IResultListener {
+	static ExtentReports extent;
+	static ExtentTest logger;
+
+	public static void intilaiseReport() {
+
+		extent = new ExtentReports(System.getProperty("user.dir") + "/test-output/STMExtentReport.html", true);
+		extent.loadConfig(new File(System.getProperty("user.dir") + "/extent-config.xml"));
+	}
+
+	public static void startReport() {
+
+	}
+
+	public static void stoptReport() {
+
+		extent.endTest(logger);
+	}
+
+	public static void closeReport() {
+		extent.flush();
+		extent.close();
+	}
+
+	@Override
+	public void onTestStart(ITestResult result) {
+		// TODO Auto-generated method stub
+		System.out.println("On test start");
+		logger = extent.startTest(result.getName());
+	}
+
+	@Override
+	public void onTestSuccess(ITestResult result) {
+		// TODO Auto-generated method stub
+		logger.log(LogStatus.PASS, "Test Case " + result.getName() + " is passTest");
+	}
+
+	@Override
+	public void onTestFailure(ITestResult result) {
+		// TODO Auto-generated method stub
+		logger.log(LogStatus.FAIL, "Test Case " + result.getName() + " is failed");
+		logger.log(LogStatus.FAIL, result.getThrowable());
+	}
+
+	@Override
+	public void onTestSkipped(ITestResult result) {
+		// TODO Auto-generated method stub
+		logger.log(LogStatus.SKIP, "Test Case " + result.getName() + " is skipped");
+		logger.log(LogStatus.SKIP, result.getThrowable());
+	}
+
+	@Override
+	public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onStart(ITestContext context) {
+
+	}
+
+	@Override
+	public void onFinish(ITestContext context) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onConfigurationSuccess(ITestResult itr) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onConfigurationFailure(ITestResult itr) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onConfigurationSkip(ITestResult itr) {
+		// TODO Auto-generated method stub
+
+	}
+
+}
